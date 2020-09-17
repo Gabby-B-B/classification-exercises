@@ -18,27 +18,6 @@ warnings.filterwarnings("ignore")
 import acquire
 
 
-# In[26]:
-
-
-
-def prep_titanic_data():
-    df = clean_data()
-    train_validate, test = train_test_split(df, test_size=.2, random_state=123, stratify=df.survived)
-    train, validate = train_test_split(train_validate, 
-                                       test_size=.3, 
-                                       random_state=123, 
-                                       stratify=train_validate.survived)
-    train, validate, test = impute_mode()
-    return train, validate, test
-
-
-# In[ ]:
-
-
-
-
-
 # The end product of this exercise should be the specified functions in a python script named prepare.py. Do these in your classification_exercises.ipynb first, then transfer to the prepare.py file.
 # 
 # This work should all be saved in your local classification-exercises repo. Then add, commit, and push your changes.
@@ -247,4 +226,18 @@ train, validate, test = titanic_prep()
 print(f'train:{train.shape}')
 print(f'validate: {validate.shape}')
 print(f'test: {test.shape}')
+
+
+# In[88]:
+
+
+def prep_titanic_data():
+    df = clean_data()
+    train_validate, test = train_test_split(df, test_size=.2, random_state=123, stratify=df.survived)
+    train, validate = train_test_split(train_validate, 
+                                       test_size=.3, 
+                                       random_state=123, 
+                                       stratify=train_validate.survived)
+    train, validate, test = impute_mode()
+    return train, validate, test
 
