@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[9]:
+# In[1]:
 
 
 import numpy as np
@@ -17,13 +17,13 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MinMaxScaler
 from pydataset import data
 
 
-# In[5]:
+# In[2]:
 
 
 from env import host, user, password
 
 
-# In[6]:
+# In[3]:
 
 
 def get_connection(db, user=env.user, host=env.host, password=env.password):
@@ -50,7 +50,7 @@ iris = pd.read_sql('SELECT * FROM measurements', get_connection('iris_db'))
 iris.to_csv('iris.csv')
 
 
-# In[25]:
+# In[4]:
 
 
 def get_iris_data():
@@ -68,7 +68,7 @@ def get_iris_data():
         return df  
 
 
-# In[13]:
+# In[5]:
 
 
 df_iris = pd.read_csv('iris.csv', index_col=0)
@@ -139,6 +139,24 @@ def get_titanic_data():
 
         # Return the dataframe to the calling code
         return df  
+
+
+# In[6]:
+
+
+get_ipython().system(' git add "acquire.ipynb"')
+
+
+# In[7]:
+
+
+get_ipython().system(' git commit -m "updated iris csv"')
+
+
+# In[8]:
+
+
+get_ipython().system(' git push')
 
 
 # In[ ]:
