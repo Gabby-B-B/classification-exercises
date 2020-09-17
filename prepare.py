@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[6]:
+# In[2]:
 
 
 import pandas as pd
@@ -34,7 +34,7 @@ import acquire
 # 
 # Create a function named prep_iris that accepts the untransformed iris data, and returns the data with the transformations above applied.
 
-# In[49]:
+# In[3]:
 
 
 # Use the function defined in acquire.py to load the iris data.
@@ -42,7 +42,7 @@ iris = acquire.get_iris_data()
 iris.head()
 
 
-# In[50]:
+# In[4]:
 
 
 # Drop the species_id and measurement_id columns.
@@ -50,13 +50,13 @@ cols_to_drop = ['species_id', 'measurement_id']
 iris = iris.drop(columns=cols_to_drop)
 
 
-# In[30]:
+# In[5]:
 
 
 iris.columns
 
 
-# In[31]:
+# In[6]:
 
 
 # Rename the species_name column to just species.
@@ -65,7 +65,7 @@ iris=iris.rename(columns={'species_id.1': 'speciesid'})
 iris
 
 
-# In[32]:
+# In[7]:
 
 
 # Create dummy variables of the species name.
@@ -75,7 +75,7 @@ iris = pd.concat([iris, iris_dummies], axis=1)
 iris
 
 
-# In[60]:
+# In[8]:
 
 
 def iris_prep(cached=True):
@@ -86,21 +86,21 @@ def iris_prep(cached=True):
     return df
 
 
-# In[61]:
+# In[9]:
 
 
 prepped = iris_prep()
 prepped.sample(3)
 
 
-# In[63]:
+# In[26]:
 
 
 titanic = acquire.get_titanic_data()
 titanic.head()
 
 
-# In[65]:
+# In[27]:
 
 
 ##handling nulls
@@ -108,21 +108,21 @@ titanic[titanic.embark_town.isnull()]
 titanic[titanic.embarked.isnull()]
 
 
-# In[66]:
+# In[28]:
 
 
 titanic = titanic[~titanic.embarked.isnull()]
 titanic.info()
 
 
-# In[67]:
+# In[29]:
 
 
 ## removing the deck column
 titanic = titanic.drop(columns='deck')
 
 
-# In[69]:
+# In[30]:
 
 
 ## Create a dummy variable of the embarked column.
@@ -130,14 +130,14 @@ titanic_dummies = pd.get_dummies(titanic.embarked, drop_first=True)
 titanic_dummies.sample(5)
 
 
-# In[70]:
+# In[31]:
 
 
 titanic = pd.concat([titanic, titanic_dummies], axis=1)
 titanic.head()
 
 
-# In[71]:
+# In[16]:
 
 
 ## split data
@@ -146,7 +146,7 @@ train_validate, test = train_test_split(titanic, test_size=.2,
                                         stratify=titanic.survived)
 
 
-# In[72]:
+# In[17]:
 
 
 train, validate = train_test_split(train_validate, test_size=.3, 
@@ -154,7 +154,7 @@ train, validate = train_test_split(train_validate, test_size=.3,
                                    stratify=train_validate.survived)
 
 
-# In[74]:
+# In[18]:
 
 
 print(f'train:{train.shape}')
@@ -162,7 +162,7 @@ print(f'validate: {validate.shape}')
 print(f'test: {test.shape}')
 
 
-# In[78]:
+# In[19]:
 
 
 ## create a function to do the same thing
@@ -178,7 +178,7 @@ def titanic_split(df):
 train, validate, test = titanic_split(titanic)
 
 
-# In[79]:
+# In[20]:
 
 
 print(f'train:{train.shape}')
@@ -186,7 +186,7 @@ print(f'validate: {validate.shape}')
 print(f'test: {test.shape}')
 
 
-# In[80]:
+# In[21]:
 
 
 ## helper function to impute age
@@ -199,7 +199,7 @@ def impute_mean_age(train, validate, test):
     return train, validate, test
 
 
-# In[81]:
+# In[22]:
 
 
 def titanic_prep(cached=True):
@@ -214,13 +214,13 @@ def titanic_prep(cached=True):
     return train, validate, test
 
 
-# In[83]:
+# In[23]:
 
 
 train, validate, test = titanic_prep()
 
 
-# In[84]:
+# In[24]:
 
 
 print(f'train:{train.shape}')
@@ -228,7 +228,18 @@ print(f'validate: {validate.shape}')
 print(f'test: {test.shape}')
 
 
-# In[88]:
+# In[1]:
+
+
+def clean_data():
+    df.drop_duplicates(inplace=True)
+    df.drop(columns=['deck', 'embarked', 'class', 'age'], inplace=True)
+    df.embark_town.fillna(value='Southampton', inplace=True)
+    dummy_df = pd.get_dummies(df[['sex', 'embark_town']], drop_first=True)
+    return pd.concat([df, dummy_df], axis=1)
+
+
+# In[2]:
 
 
 def prep_titanic_data():
