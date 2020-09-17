@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[9]:
 
 
 import numpy as np
@@ -17,13 +17,13 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MinMaxScaler
 from pydataset import data
 
 
-# In[2]:
+# In[10]:
 
 
 from env import host, user, password
 
 
-# In[3]:
+# In[11]:
 
 
 def get_connection(db, user=env.user, host=env.host, password=env.password):
@@ -38,19 +38,20 @@ def get_connection(db, user=env.user, host=env.host, password=env.password):
 # <li>print the data type of each column
 # <li>print the summary statistics for each of the numeric variables. Would you recommend rescaling the data based on these statistics?</ul>
 
-# In[7]:
+# In[21]:
 
 
-iris = pd.read_sql('SELECT * FROM measurements', get_connection('iris_db'))
+iris = pd.read_sql('SELECT * FROM measurements INNER JOIN species ON measurements.species_id=species.species_id', get_connection('iris_db'))
+iris.head()
 
 
-# In[8]:
+# In[27]:
 
 
 iris.to_csv('iris.csv')
 
 
-# In[4]:
+# In[28]:
 
 
 def get_iris_data():
@@ -68,14 +69,14 @@ def get_iris_data():
         return df  
 
 
-# In[5]:
+# In[30]:
 
 
 df_iris = pd.read_csv('iris.csv', index_col=0)
 df_iris.head(3)
 
 
-# In[15]:
+# In[31]:
 
 
 df_iris.info()
@@ -88,7 +89,7 @@ for col in df_iris.columns:
     print(col) 
 
 
-# In[19]:
+# In[32]:
 
 
 df_iris.dtypes
@@ -104,20 +105,20 @@ df_iris.dtypes
 # <li>compute the range for each of the numeric variables.
 #     </ol>
 
-# In[29]:
+# In[33]:
 
 
 excel_df = pd.read_csv('telco.csv', index_col=0)
 excel_df.head(100)
 
 
-# In[22]:
+# In[34]:
 
 
 titanic=pd.read_sql('SELECT * FROM passengers', get_connection('titanic_db'))
 
 
-# In[23]:
+# In[36]:
 
 
 titanic.to_csv('titanic.csv')
@@ -139,28 +140,4 @@ def get_titanic_data():
 
         # Return the dataframe to the calling code
         return df  
-
-
-# In[6]:
-
-
-get_ipython().system(' git add "acquire.ipynb"')
-
-
-# In[7]:
-
-
-get_ipython().system(' git commit -m "updated iris csv"')
-
-
-# In[8]:
-
-
-get_ipython().system(' git push')
-
-
-# In[ ]:
-
-
-
 
